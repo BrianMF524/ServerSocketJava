@@ -30,24 +30,30 @@ public class Cliente {
 
                 switch (opcion){
                     case "1":
+                        salida.println(1);//Indicamos al server que opcion se eligio
                         System.out.println("Ingrese longitud deseada(5 a 20)");
                         String longitud=scanner.nextLine();
                         salida.println(longitud);
-                        String respuesta= entrada.readLine();
-                        System.out.println(respuesta);
                         break;
                     case "2":
+                        salida.println(2);
                         System.out.println("Ingrese su nombre de usuario");
                         String nombre=scanner.nextLine();
                         salida.println(nombre);
                         break;
                     case "3":
+                        salida.println(3);
                         System.out.println("Saliendo");
                         break;
                     default:
                         System.out.println("Opcion invalida");
                         break;
 
+                }
+                String respuesta= entrada.readLine();
+                System.out.println(respuesta);
+                if(opcion.equals("3")){
+                    break;
                 }
             }
 

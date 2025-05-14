@@ -13,13 +13,6 @@ public class ServidorSocket {
         final int PUERTO = 5000;
         try(ServerSocket sv=new ServerSocket(PUERTO)){
             System.out.println("Servidor funcionando en el puerto "+ PUERTO);
-            /*System.out.println("Usuario prueba: "+ GeneradorNombre.generar(7));
-            System.out.println("Usuario prueba: "+ GeneradorNombre.generar(35));
-            System.out.println("Usuario prueba: "+ GeneradorNombre.generar(18));
-            System.out.println("Usuario prueba: "+ GeneradorNombre.generar(3));
-            System.out.println("mail prueba: "+ GeneradorCorreo.generar(GeneradorNombre.generar(5)));
-            System.out.println("mail prueba: "+ GeneradorCorreo.generar(GeneradorNombre.generar(5)));
-            System.out.println("mail prueba: "+ GeneradorCorreo.generar(GeneradorNombre.generar(5)));*/
              while (true){
                  Socket client=sv.accept();
                  new Thread(()->manejarCliente(client)).start();
@@ -33,20 +26,34 @@ public class ServidorSocket {
                 BufferedReader entrada= new BufferedReader(new InputStreamReader(client.getInputStream()));
                 PrintWriter salida=new PrintWriter(client.getOutputStream(),true)
                 ) {
-                int longitud=Integer.parseInt(entrada.readLine());
+                //Se le la opcion enviada desde la app cliente
+                String opcion=entrada.readLine();
 
-                if(longitud<5||longitud>20){
-                    salida.println("Longitud invalida");
-                    return;
-                }
-                String usuario = GeneradorNombre.generar(longitud);
-                salida.println("Usuario generado: "+usuario);
-                String correo = GeneradorCorreo.generar(usuario);
-                salida.println("Correo generado: "+correo);
-                if(ValidarCorreo.esValido(correo)){
-                    salida.println("Correo valido.");
-                }else {
-                    salida.println("Correo invalido.");
+                switch (opcion){
+                    case "1":
+                        int longitud=Integer.parseInt(entrada.readLine());
+
+                        if(longitud<5||longitud>20){
+                            salida.println("Longitud invalida");
+                            return;
+                        }
+                        String usuario = GeneradorNombre.generar(longitud);
+                        salida.println("Usuario generado: "+usuario);
+                        manejarCliente(client);
+                        break;
+                    case "2":
+                        String nombreCorreo = entrada.readLine();
+                        String correo = GeneradorCorreo.generar(nombreCorreo);
+                        if(ValidarCorreo.esValido(correo)){
+                            salida.println("Correo generado: "+correo);
+                        }else {
+                            salida.println("Correo invalido.");
+                        }
+                        manejarCliente(client);
+                        break;
+                    case "3":
+                        salida.println("Cerrando conexion");
+                        break;
                 }
 
         } catch (IOException e) {
