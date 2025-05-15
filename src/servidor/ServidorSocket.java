@@ -26,7 +26,7 @@ public class ServidorSocket {
                 BufferedReader entrada= new BufferedReader(new InputStreamReader(client.getInputStream()));
                 PrintWriter salida=new PrintWriter(client.getOutputStream(),true)
                 ) {
-                //Se le la opcion enviada desde la app cliente
+                //Se lee la opcion enviada desde la app cliente
                 String opcion=entrada.readLine();
 
                 switch (opcion){
